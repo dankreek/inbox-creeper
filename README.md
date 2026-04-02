@@ -17,13 +17,48 @@ MCP server for read-only Gmail access. Provides tools to fetch unread emails usi
 
 ## Setup
 
-### 1. Install dependencies
+### Option 1: Docker (Recommended)
+
+#### Build and run with Docker Compose
+
+```bash
+# Create .env file with your credentials
+cp .env.example .env
+# Edit .env with your Google OAuth credentials
+
+# Build and start the container
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop the container
+docker-compose down
+```
+
+#### Build and run with Docker
+
+```bash
+# Build the image
+docker build -t inbox-creeper .
+
+# Run the container
+docker run -p 8000:8000 \
+  -e GOOGLE_CLIENT_ID="your-client-id" \
+  -e GOOGLE_CLIENT_SECRET="your-client-secret" \
+  -e GOOGLE_REFRESH_TOKEN="your-refresh-token" \
+  inbox-creeper
+```
+
+### Option 2: Local Development
+
+#### 1. Install dependencies
 
 ```bash
 uv sync
 ```
 
-### 2. Obtain Google OAuth credentials
+#### 2. Obtain Google OAuth credentials
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select an existing one
@@ -32,7 +67,7 @@ uv sync
 5. Download the credentials and note the `client_id` and `client_secret`
 6. Run the OAuth flow to obtain a `refresh_token`
 
-### 3. Configure environment variables
+#### 3. Configure environment variables
 
 Set the following environment variables:
 
@@ -44,7 +79,7 @@ export GOOGLE_REFRESH_TOKEN="your-refresh-token"
 
 You can also copy `.env.example` to `.env` and fill in your credentials.
 
-### 4. Run the server
+#### 4. Run the server
 
 ```bash
 uv run python -m inbox_creeper.server

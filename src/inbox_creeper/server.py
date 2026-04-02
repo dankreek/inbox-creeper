@@ -27,4 +27,5 @@ def get_unread_emails_tool(hours: int = 24) -> list[dict]:
 
 if __name__ == "__main__":
     # Run the server with streamable-http transport (modern MCP access method)
-    mcp.run(transport="streamable-http", port=8000)
+    # Listen on 0.0.0.0 to allow connections from outside the container
+    mcp.run(transport="streamable-http", host="0.0.0.0", port=8000)
